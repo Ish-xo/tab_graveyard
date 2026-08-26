@@ -1030,10 +1030,10 @@ Not a URL at all, just a random note left in the tab list`;
                 const footerHref = footerBtn.getAttribute('href');
                 
                 // Verify URL destination matches the target developer account
-                if (!headerHref || !headerHref.startsWith('https://buymeacoffee.com/ishch')) {
+                if (!headerHref || !headerHref.startsWith('https://buymeacoffee.com/danielpark12')) {
                     isTampered = true;
                 }
-                if (!footerHref || !footerHref.startsWith('https://buymeacoffee.com/ishch')) {
+                if (!footerHref || !footerHref.startsWith('https://buymeacoffee.com/danielpark12')) {
                     isTampered = true;
                 }
                 
@@ -1094,7 +1094,7 @@ Not a URL at all, just a random note left in the tab list`;
                         <p class="tamper-action-hint">
                             Please restore the original developer credits and "Buy Me a Coffee" links to continue using Tab Graveyard.
                         </p>
-                        <a href="https://buymeacoffee.com/ishch" target="_blank" rel="noopener noreferrer" class="btn btn-bmc buy-me-a-coffee" style="display:inline-flex;align-items:center;padding:12px 20px;text-decoration:none;border-radius:4px;font-weight:700;">
+                        <a href="https://buymeacoffee.com/danielpark12" target="_blank" rel="noopener noreferrer" class="btn btn-bmc buy-me-a-coffee" style="display:inline-flex;align-items:center;padding:12px 20px;text-decoration:none;border-radius:4px;font-weight:700;">
                             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:8px;vertical-align:middle;">
                                 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
                                 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
