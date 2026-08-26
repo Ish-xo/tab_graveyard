@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Graveyard - Your browser has too many tabs. We know.</title>
+    <meta name="description" content="Paste your open browser tabs and discover duplicates, clusters, and dead links. Clean your browser session locally and keep only the survivors.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sticky Navigation -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="#" class="logo" id="logoLink">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                    <line x1="4" y1="22" x2="4" y2="15"></line>
+                </svg>
+                <span>TAB GRAVEYARD</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#privacy" class="nav-link">Privacy</a>
+                <a href="https://buymeacoffee.com/ishch" target="_blank" rel="noopener noreferrer" class="btn btn-bmc buy-me-a-coffee" id="headerBmcBtn" aria-label="Support the developer">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="2" x2="6" y2="4"></line>
+                        <line x1="10" y1="2" x2="10" y2="4"></line>
+                        <line x1="14" y1="2" x2="14" y2="4"></line>
+                    </svg>
+                    <span class="bmc-text">Buy Me a Coffee</span>
+                </a>
+                <button id="clearBtn" class="btn btn-secondary btn-sm" aria-label="Clear all content">Clear</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                <span>LOCAL UTILITY • NO DATA LEAVES YOUR DEVICE</span>
+            </div>
+            <h1>YOUR TABS ARE DYING.</h1>
+            <h2 class="sub-heading">LET THEM GO.</h2>
+            <p class="hero-desc">
+                Paste your open tabs and discover duplicates, forgotten pages, and tabs that probably don't deserve to survive.
+            </p>
+        </section>
+
+        <!-- Input Section -->
+        <section class="input-section" id="inputContainer">
+            <div class="card terminal-card">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <div class="terminal-title">TAB_INPUT.log</div>
+                </div>
+                <div class="card-body">
+                    <div class="input-meta">
+                        <label for="tabTextarea" class="input-label">PASTE YOUR OPEN TABS</label>
+                        <span class="tab-counter" id="tabCounter">0 tabs detected</span>
+                    </div>
+                    <textarea 
+                        id="tabTextarea" 
+                        placeholder="Paste your browser tabs here...&#10;&#10;Example:&#10;https://youtube.com/watch?v=dQw4w9WgXcQ&#10;https://github.com/google/deepmind&#10;https://stackoverflow.com/questions/11227809&#10;https://amazon.com/dp/B08N5WRWNW"
+                        spellcheck="false"
+                        aria-label="Browser tabs list text area"
+                    ></textarea>
+                    
+                    <div class="input-actions">
+                        <button id="analyzeBtn" class="btn btn-primary" aria-label="Analyze Tabs">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                            [ ⚡ ANALYZE TABS ]
+                        </button>
+                        <button id="demoBtn" class="btn btn-tertiary" aria-label="Load demo data">
+                            Paste example
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Dashboard Section (Hidden by Default) -->
+        <section class="results-section hidden" id="resultsContainer">
+            <div class="section-divider">
+                <span>ANALYSIS_COMPLETE</span>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-num" id="statTotal">0</div>
+                    <div class="stat-label">TOTAL TABS</div>
+                </div>
+                <div class="stat-card accent-red">
+                    <div class="stat-num" id="statDuplicates">0</div>
+                    <div class="stat-label">DUPLICATES</div>
+                </div>
+                <div class="stat-card accent-yellow">
+                    <div class="stat-num" id="statAtRisk">0</div>
+                    <div class="stat-label">AT RISK / DEAD</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" id="statCategories">0</div>
+                    <div class="stat-label">CATEGORIES</div>
+                </div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="categories-container">
+                <h3 class="subsection-title">CATEGORIES</h3>
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Dynamic Category Cards -->
+                </div>
+            </div>
+
+            <!-- The Graveyard List -->
+            <div class="graveyard-container">
+                <div class="graveyard-header-row">
+                    <div>
+                        <h3 class="subsection-title">THE GRAVEYARD</h3>
+                        <p class="subsection-desc">Tabs that may be ready to close. Click cards or select tabs to bury them.</p>
+                    </div>
+                    <div class="active-filter-badge hidden" id="activeFilterBadge">
+                        <span>Filter: DEVELOPMENT</span>
+                        <button id="clearFilterBtn" aria-label="Clear Category Filter">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Select System Controls -->
+                <div class="selection-controls">
+                    <div class="selection-actions">
+                        <button id="selectDeadBtn" class="btn btn-sm btn-secondary">Select All Dead</button>
+                        <button id="selectDuplicatesBtn" class="btn btn-sm btn-secondary">Select Duplicates</button>
+                        <button id="selectNoneBtn" class="btn btn-sm btn-secondary">Select None</button>
+                    </div>
+                    <div class="selection-stats">
+                        <span id="selectedCountText">0 tabs selected</span>
+                    </div>
+                </div>
+
+                <!-- Tab Cards List -->
+                <div class="graveyard-list" id="graveyardList">
+                    <!-- Dynamic Tab Cards -->
+                </div>
+
+                <!-- Empty State (No tabs in filter or graveyard) -->
+                <div class="empty-state hidden" id="graveyardEmptyState">
+                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                    <h4 id="emptyStateTitle">NO TABS IN THE GRAVEYARD</h4>
+                    <p id="emptyStateDesc">Your browser is suspiciously clean. Paste some tabs to begin.</p>
+                </div>
+
+                <!-- Master Actions (Sticky/Bottom panel) -->
+                <div class="dashboard-actions">
+                    <button id="buryBtn" class="btn btn-primary btn-lg" aria-label="Bury selected tabs">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        ☠ BURY SELECTED TABS
+                    </button>
+                    <div class="dashboard-secondary-actions">
+                        <button id="copySurvivorsBtn" class="btn btn-secondary" aria-label="Copy survivors list to clipboard">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            COPY SURVIVORS
+                        </button>
+                        <button id="exportTxtBtn" class="btn btn-secondary" aria-label="Export survivors to text file">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            EXPORT TXT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="info-section" id="how-it-works">
+            <div class="section-divider">
+                <span>OPERATING_MANUAL</span>
+            </div>
+            <h2>HOW IT WORKS</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <h4>PASTE TABS</h4>
+                    <p>Copy URLs from your browser and paste them into the input console. Works with raw URLs or browser-export text.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <h4>RUN METRICS</h4>
+                    <p>The system calculates a Death Score based on tracking parameters, domains, clustering, and duplicate status.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <h4>BURY WASTELAND</h4>
+                    <p>Bury the useless tabs to remove them from your list, then copy or export the clean, structured survivors.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Section -->
+        <section class="privacy-section" id="privacy">
+            <div class="card privacy-card">
+                <div class="privacy-icon-container">
+                    <svg class="privacy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M12 2a5 5 0 0 0-5 5v4h10V7a5 5 0 0 0-5-5zM12 15v2"></path>
+                    </svg>
+                </div>
+                <h3>YOUR TABS STAY YOURS</h3>
+                <p class="privacy-lead">We don't need to know what you've been browsing.</p>
+                <div class="privacy-grid">
+                    <div class="privacy-bullet">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bullet-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>No External Server Uploads</span>
+                    </div>
+                    <div class="privacy-bullet">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bullet-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>No Analytics or Tracking</span>
+                    </div>
+                    <div class="privacy-bullet">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bullet-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>No Account Registrations</span>
+                    </div>
+                    <div class="privacy-bullet">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bullet-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>100% Client-Side Processing</span>
+                    </div>
+                </div>
+                <div class="privacy-footer-note">
+                    All parsing, scoring, duplicate detection, and category filtering happen in your browser's local sandbox memory.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sticky Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">☠ TAB GRAVEYARD</span>
+                <p class="footer-tagline">"Close the tabs. Keep the good stuff."</p>
+            </div>
+            <div class="footer-meta">
+                <span class="footer-stat-note">Built for people with 47 tabs open.</span>
+                <div class="footer-links">
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#privacy">Privacy</a>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="github-link">
+                        <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.469-2.38 1.236-3.22-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.98-.399 3-.405 1.02.006 2.043.139 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.118 3.176.77.84 1.235 1.911 1.235 3.22 0 4.61-2.803 5.62-5.475 5.92.43.372.82 1.102.82 2.222v3.293c0 .32.215.694.824.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"></path>
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+                <!-- Buy Me a Coffee Footer Button -->
+                <a href="https://buymeacoffee.com/ishch" target="_blank" rel="noopener noreferrer" class="bmc-footer-btn buy-me-a-coffee" id="footerBmcBtn">
+                    <div class="bmc-footer-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="2" x2="6" y2="4"></line>
+                            <line x1="10" y1="2" x2="10" y2="4"></line>
+                            <line x1="14" y1="2" x2="14" y2="4"></line>
+                        </svg>
+                    </div>
+                    <div class="bmc-footer-text">
+                        <span class="bmc-footer-title">SUPPORT MY WORK</span>
+                        <span class="bmc-footer-desc">Buy me a coffee</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container" role="live" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
